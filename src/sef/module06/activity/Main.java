@@ -1,34 +1,56 @@
 package sef.module06.activity;
 
+import java.util.Scanner;
+
 public class Main {
+
     public static void main(String[] args) {
 
-        BankAccount acc = new BankAccount("ACC-1001", 500);
+        Scanner scanner = new Scanner(System.in);
+        BankAccount account = new BankAccount("ACC-1001", 500);
 
-        System.out.println("Account: " + acc.getAccountNumber());
-        System.out.println("Balance: " + acc.getBalance());
-        System.out.println("----");
+        System.out.print("Enter PIN: ");
+        int pin = scanner.nextInt();
 
-        // Valid operations
-        acc.deposit(200);
-        acc.withdraw(100);
+        // Authenticate first
+        if (!account.authenticate(pin)) {
+            System.out.println("Program terminated.");
+            return;
+        }
 
-        // Invalid operations
-        acc.deposit(-50);     // invalid deposit
-        acc.withdraw(9999);   // exceeds balance
-        acc.withdraw(-10);    // invalid withdraw
+        // Menu-driven actions
+        while (true) {
+            System.out.println("\n1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+            System.out.print("Choose option: ");
 
-        System.out.println("----");
-        System.out.println("Final Balance: " + acc.getBalance());
-        System.out.println("================================");
+            int choice = scanner.nextInt();
 
-        // Bonus: SavingsAccount + protected method usage
-        SavingsAccount save = new SavingsAccount("SAV-2001", 1000, 5);
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter deposit amount: ");
+                    account.deposit(scanner.nextDouble());
+                    break;
 
-        System.out.println("Savings Account: " + save.getAccountNumber());
-        System.out.println("Balance: " + save.getBalance());
+                case 2:
+                    System.out.print("Enter withdrawal amount: ");
+                    account.withdraw(scanner.nextDouble());
+                    break;
 
-        save.addMonthlyInterest();
-        System.out.println("After Interest Balance: " + save.getBalance());
+                case 3:
+                    System.out.println("Balance: " + account.getBalance());
+                    break;
+
+                case 4:
+                    System.out.println("Thank you. Goodbye!");
+                    scanner.close();
+                    return;
+
+                default:
+                    System.out.println("Invalid option.");
+            }
+        }
     }
 }
