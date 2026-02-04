@@ -5,7 +5,7 @@ public class BankAccount {
     private final String accountNumber; // immutable
     private double balance;
 
-    private static final int PIN = 445566; // fixed PIN
+    private final int PIN = 445566; // fixed PIN
     private boolean authenticated = false;
 
     public BankAccount(String accountNumber, double initialBalance) {
